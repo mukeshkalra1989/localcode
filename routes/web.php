@@ -17,6 +17,13 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
+    // Check if the user is authenticated
+    if (Auth::check()) {
+        // User is logged in, redirect to home page
+        return redirect('/home'); 
+    }
+
+    // User is not logged in, show the login view
     return view('auth/login');
 });
 
