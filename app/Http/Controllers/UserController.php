@@ -51,6 +51,7 @@ class UserController extends Controller
     {
         $input = $request->all();
         $input['password'] = Hash::make($request->password);
+        $input['email_verified_at'] = now();
 
         $user = User::create($input);
         $user->assignRole($request->roles);
