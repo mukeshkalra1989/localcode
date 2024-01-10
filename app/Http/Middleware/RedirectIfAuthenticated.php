@@ -20,8 +20,15 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
+            // if (Auth::guard($guard)->check()) {
+            //     return redirect(RouteServiceProvider::HOME);
+            // }
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                if (Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Super Admin')) {
+                    return redirect('/home'); // Redirect admin and super admin
+                } elseif (!Auth::user()->hasVerifiedEmail()) {
+                    return redirect(RouteServiceProvider::HOME);
+                }
             }
         }
 
