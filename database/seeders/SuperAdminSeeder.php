@@ -16,17 +16,17 @@ class SuperAdminSeeder extends Seeder
     {
         // Creating Super Admin User
         $superAdmin = User::create([
-            'name' => 'jake', 
-            'email' => 'jake@mailinator.com',
-            'password' => Hash::make('jake1234')
+            'name' => 'Super admin', 
+            'email' => 'superadmin@mailinator.com',
+            'password' => Hash::make('12345678')
         ]);
         $superAdmin->assignRole('Super Admin');
 
         // Creating Admin User
         $admin = User::create([
-            'name' => 'Cherry', 
-            'email' => 'cheery@mailinator.com',
-            'password' => Hash::make('cherry1234')
+            'name' => 'Admin', 
+            'email' => 'admin@mailinator.com',
+            'password' => Hash::make('12345678')
         ]);
         $admin->assignRole('Admin');
 
@@ -34,7 +34,7 @@ class SuperAdminSeeder extends Seeder
         $normalManager = User::create([
             'name' => 'Mukesh', 
             'email' => 'mukesh@mailinator.com',
-            'password' => Hash::make('mukesh1234')
+            'password' => Hash::make('12345678')
         ]);
         $normalManager->assignRole('User');
     }
