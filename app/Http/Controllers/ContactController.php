@@ -6,14 +6,49 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use Carbon\Carbon;
+use DataTables;
+use Illuminate\Support\Str;
+use App\Http\Requests\ContactRequest;
+use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {        
+    public function index(Request $request)
+    {
+        $user_id = Auth::id();
+        if ($request->ajax()) {           
+            $data = Contact::where('user_id',$user_id)->orderby('id','desc')->latest()->get();
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->get('email'))) {
+                    $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                        return Str::contains($row['email'], $request->get('email')) ? true : false;
+                    });
+                }
+
+                if (!empty($request->get('search'))) {
+                    $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                        if (Str::contains(Str::lower($row['email']), Str::lower($request->get('search')))){
+                            return true;
+                        }else if (Str::contains(Str::lower($row['name']), Str::lower($request->get('search')))) {
+                            return true;
+                        }
+
+                        return false;
+                    });
+                }
+            })
+            ->addColumn('action', function($row){
+                $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
         return view('contact.index');
     }
 
@@ -22,15 +57,37 @@ class ContactController extends Controller
      */
     public function create()
     {
-        //
+        Log::info('This is an informational message.');
+        return view('contact.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-        //
+        $data = $request->all();
+        // Remove the _token key from the array
+        $data = collect($data)->except('_token')->all();
+
+        try {
+            $data['user_id'] = Auth::id();           
+            $data['created_at'] = Carbon::now();
+           
+            Contact::create($data);
+            
+            // Log an info message
+            Log::info('This is an informational message.');
+            // Log an error message with additional context
+            Log::error('An error occurred.', ['user_id' => 1, 'context' => 'Some additional information']);
+
+            return redirect()->route('contact.index')->with('success', 'New contact added successfully!');
+        } catch (\Exception $e) {
+            // Handle the exception    
+            // Log the exception
+            //\Log::error($e);            
+            return redirect()->route('contact.index')->with('error', 'An error occurred while storing data.');
+        }
     }
 
     /**
@@ -105,15 +162,13 @@ class ContactController extends Controller
                 
                 // Process the $csvData array as needed
                 Contact::insert($csvData);
-               
-                return redirect('/contact')->with('success', 'File uploaded successfully!');
+                
+                return redirect()->route('contact.index')->with('success', $row_count. ' contacts uploaded successfully!');
             }
 
-            return redirect('/contact')->with('error', 'File upload failed.');
-        } catch (\Exception $e) {
-           
-            // Handle exceptions, log errors, and provide appropriate feedback to the user
-            return redirect('/contact')->with('error', 'Error processing the CSV file: ' . $e->getMessage());
+            return redirect()->route('contact.index')->with('error', 'File upload failed.');
+        } catch (\Exception $e) {                       
+            return redirect()->route('contact.index')->with('error',  'Error processing the CSV file: ' . $e->getMessage());
         }
     }
 

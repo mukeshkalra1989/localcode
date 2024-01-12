@@ -60,13 +60,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'users' => UserController::class,
         'contact' => ContactController::class,
     ]);
-/**
-* Contacts import route
-*/
-Route::post('/contact-upload', [ContactController::class, 'uploadcsv'])->name('uploadcsv');
+    
+    /**
+    * Contacts import route
+    */
+    Route::post('/contact-upload', [ContactController::class, 'uploadcsv'])->name('uploadcsv');
 
-Route::get('/phone-setup', [PhoneSetupController::class, 'index']);
-Route::post('/phone-setup', [PhoneSetupController::class, 'authenticate']);
+    Route::get('/phone-setup', [PhoneSetupController::class, 'index']);
+    Route::post('/phone-setup', [PhoneSetupController::class, 'authenticate']);
 
 });
 
