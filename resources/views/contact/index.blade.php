@@ -1,18 +1,22 @@
-<!-- resources/views/upload.blade.php -->
+@extends('layouts.app')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSV File Upload</title>
-</head>
-<body>
-    <form action="{{ route('uploadcsv') }}" method="post" enctype="multipart/form-data">
-        @csrf
-        <label for="file">Choose CSV File:</label>
-        <input type="file" name="file" id="file">
-        <button type="submit">Upload</button>
-    </form>
-</body>
-</html>
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">{{ __('Contacts') }}</div>
+
+                <div class="card-body">
+                    <form action="{{ route('uploadcsv') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <label for="file">Choose CSV File:</label>
+                        <input type="file" name="file" id="file">
+                        <button type="submit">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
