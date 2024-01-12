@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -55,4 +56,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resources([
     'roles' => RoleController::class,
     'users' => UserController::class,
+    'contact' => ContactController::class,
 ]);
+
+/**
+ * Contacts import route
+ */
+Route::post('/contact-upload', [ContactController::class, 'uploadcsv'])->name('uploadcsv');
