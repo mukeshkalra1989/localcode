@@ -43,15 +43,24 @@
                         Add new contact
                     </button>
 
-                    <input type="text" name="email" class="form-control searchEmail" placeholder="Search for Email Only...">
+                    
                 
                     <table class="table table-bordered data-table">
                         <thead>
                             <tr>
                                 <th>Sr No.</th>
-                                <th>Name of contact</th>
-                                <th>Phone number</th>
-                                <th>Email</th>
+                                <th>
+                                  Name of contact
+                                  <input type="text" name="searchContactname" class="form-control searchContactname" placeholder="Search for Contact name Only...">                                  
+                                </th>
+                                <th>
+                                  Phone number
+                                  <input type="text" name="phono_number" class="form-control searchPhone" placeholder="Search for Phone number Only...">
+                                </th>
+                                <th>
+                                  Email
+                                  <input type="email" name="email" class="form-control searchEmail" placeholder="Search for Email Only...">
+                                </th>
                                 <th width="100px">Action</th>
                             </tr>
                         </thead>
@@ -79,6 +88,9 @@
         data: function (d) {
           d.email = $('.searchEmail').val();
           d.search = $('input[type="search"]').val();
+          d.phone = $('.searchPhone').val();
+          d.contact_name = $('.searchContactname').val();
+          
         }
       },
       columns: [
@@ -94,9 +106,21 @@
       ]
     });
 
+    // Filter for email
     $(".searchEmail").keyup(function(){
         table.draw();
     });
+    
+    // Filter for Phne number
+    $(".searchPhone").keyup(function(){
+        table.draw();
+    });
+
+    // Filter for contact name
+    $(".searchContactname").keyup(function(){
+        table.draw();
+    });
+    
   });
 </script>
 @endsection

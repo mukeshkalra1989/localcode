@@ -89,6 +89,12 @@
                             </div>
                         @endif
 
+                        @if ($message = Session::get('error'))
+                            <div class="alert alert-danger text-center" role="alert">
+                                {{ $message }}
+                            </div>
+                        @endif
+
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>

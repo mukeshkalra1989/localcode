@@ -23,7 +23,8 @@ class ContactRequest extends FormRequest
     {
         return [
            // 'user_id' => 'required|numeric',
-            'name' => 'required|string|max:20',            
+            'first_name' => 'required|string|max:20',
+            'last_name' => 'required|string|max:20',
             'email' => 'required|email',
             'phone_number' => 'required|numeric',//|max:10',
             'street_address' => 'required',
