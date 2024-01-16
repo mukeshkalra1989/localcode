@@ -89,6 +89,22 @@
                             </div>
                         @endif
 
+                        @if ($message = Session::get('error'))
+                            <div class="alert alert-danger text-center" role="alert">
+                                {{ $message }}
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <h3 class="text-center mt-3 mb-3"><a href="/">Prospect Sidekick Crm</a></h3>
                         @yield('content')
                         
