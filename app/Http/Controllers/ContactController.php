@@ -17,7 +17,7 @@ class ContactController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
+    { 
         $user_id = Auth::id();
         if ($request->ajax()) {           
             $data = Contact::where('user_id',$user_id)->orderby('id','desc')->latest()->get();
