@@ -70,6 +70,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/phone-setup', [PhoneSetupController::class, 'authenticate']);
 
 });
-
-
-
