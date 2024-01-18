@@ -50,7 +50,7 @@
                             @endif
                         @else
                             @canany(['create-role', 'edit-role', 'delete-role'])
-                                <!--li><a class="nav-link" href="{{ route('roles.index') }}">Manage Roles</a></li-->
+                                <li><a class="nav-link" href="{{ route('roles.index') }}">Manage Roles</a></li>
                             @endcanany
                             @canany(['create-user', 'edit-user', 'delete-user'])
                                 <li><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
